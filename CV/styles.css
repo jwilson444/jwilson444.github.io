@@ -1,0 +1,87 @@
+/* Global Styles */
+body {
+    font-family: 'Lato', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fa;
+    color: #333;
+}
+
+/* Resume Layout */
+.resume-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    background-color: #dbe7f1;
+    padding: 20px;
+    width: 250px;
+    height: 100%;
+    position: sticky;
+    top: 0;
+    border-radius: 8px;
+}
+
+.profile-picture img {
+    border-radius: 50%;
+    width: 100%;
+    max-width: 240px;
+    margin-bottom: 1rem;
+}
+
+.name {
+    font-size: 2.4rem;
+    font-weight: bold;
+    color: #003366;
+}
+
+.title {
+    font-size: 1.2rem;
+    color: #0077b6;
+}
+
+.contact-info p {
+    margin: 5px 0;
+}
+
+.contact-info a {
+    color: #005f73;
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+}
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    margin-left: 270px; /* space for sidebar */
+}
+
+h2 {
+    font-size: 1.6rem;
+    color: #003366;
+    border-bottom: 1px solid #b5d0e1;
+    padding-bottom: 5px;
+    margin-bottom: 1rem;
+}
+
+h3 {
+    font-size: 1.3rem;
+    color: #0077b6;
+    margin-bottom: 5px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    margin: 5px 0;
+}

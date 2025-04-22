@@ -1,0 +1,495 @@
+---
+title: "An analysis of global ecological footprint"
+output: 
+  html_document:
+    theme: darkly
+    toc: true
+    toc_float: true
+    code_folding: hide
+date: "2025-04-22"
+author: "Jeremy Wilson"
+
+---
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(gapminder)
+library(tidyverse)
+library(ggimage)
+library(gganimate)
+library(patchwork)
+library(GGally)
+library(ggplot2)
+library(dplyr)
+library(grid)
+library(easystats)
+library(janitor)
+library(skimr)
+library(caret)
+library(png)
+library(jpeg)
+library(ggpubr)
+
+pol <- read_csv('countries.csv')
+
+pol <- pol %>%
+  clean_names() %>% #standardize col names
+  mutate(gdp_per_capita = gsub("\\$", "", gdp_per_capita), #remove $ symbols
+         gdp_per_capita = gsub("\\,", "", gdp_per_capita), #remove ,'s
+         gdp_per_capita = as.numeric(gdp_per_capita)) #change gdp_per_capita from chr to num
+```
+
+## Introduction
+
+The goal of this report is to explore and analyze a dataset regarding the ecological footprint of the world. If possible, specific characteristics will be identified that correlate with ecological impact. This page will first give some background information regarding the dataset and relevant info for the reader. Then, it will explore a series of analytical questions. Following the exploratory analysis, a predictive model will be developed and tested. I hope you enjoy.
+
+## Background and Data
+
+The dataset countries.csv was obtained from Kaggle at the following link: <https://www.kaggle.com/datasets/footprintnetwork/ecological-footprint> The data therein was obtained from the Global Footprint Network, an international organization that tracks and works on issues of global ecological importance. The dataset is rather extensive, and so a glossary is provided below, simply click each term as needed to expand it and see the definition.
+
+<style>
+.glossary-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.glossary-column {
+  flex: 1 1 45%;
+  min-width: 300px;
+}
+
+details {
+  margin-bottom: 10px;
+}
+
+summary {
+  font-weight: bold;
+  cursor: pointer;
+}
+</style>
+
+### Glossary
+
+<div class="glossary-container">
+
+<div class="glossary-column">
+
+<details>
+<summary><strong>Country</strong></summary>
+<p>The nation-state or territory for which the ecological data is reported.</p>
+</details>
+
+<details>
+<summary><strong>Region</strong></summary>
+<p>A geographic area comprising multiple countries, often grouped for analytical purposes.</p>
+</details>
+
+<details>
+<summary><strong>Population in Millions</strong></summary>
+<p>The total number of people residing in the country, expressed in millions.</p>
+</details>
+
+<details>
+<summary><strong>HDI</strong></summary>
+<p>A composite index measuring average achievement in key dimensions of human development: health, education, and standard of living.</p>
+</details>
+
+<details>
+<summary><strong>GDP per Capita</strong></summary>
+<p>The gross domestic product divided by the midyear population, indicating the average economic output per person.</p>
+</details>
+
+<details>
+<summary><strong>Cropland Footprint</strong></summary>
+<p>The amount of cropland required to grow crops for food and fiber, feed for livestock, oil crops, and rubber.</p>
+</details>
+
+<details>
+<summary><strong>Grazing Footprint</strong></summary>
+<p>The area of grassland used to raise livestock for meat, dairy, hide, and wool products.</p>
+</details>
+
+<details>
+<summary><strong>Forest Footprint</strong></summary>
+<p>The forest area required to supply timber, pulp, and fuel wood consumed by a country.</p>
+</details>
+
+<details>
+<summary><strong>Carbon Footprint</strong></summary>
+<p>The amount of forest land required to absorb CO₂ emissions from fossil fuel combustion.</p>
+</details>
+
+<details>
+<summary><strong>Fish Footprint</strong></summary>
+<p>The area of marine and inland water ecosystems required to support the annual catch of fish.</p>
+</details>
+
+</div>
+
+<div class="glossary-column">
+
+<details>
+<summary><strong>Total Ecological Footprint</strong></summary>
+<p>The sum of all resource demands placed on nature by a population.</p>
+</details>
+
+<details>
+<summary><strong>Cropland</strong></summary>
+<p>Biologically productive land used for growing crops for food, fiber, and feed.</p>
+</details>
+
+<details>
+<summary><strong>Grazing Land</strong></summary>
+<p>Land used for raising livestock through grazing.</p>
+</details>
+
+<details>
+<summary><strong>Forest Land</strong></summary>
+<p>Land covered by forests that provide timber and absorb carbon.</p>
+</details>
+
+<details>
+<summary><strong>Fishing Water</strong></summary>
+<p>Marine and inland water bodies that provide fish and aquatic resources.</p>
+</details>
+
+<details>
+<summary><strong>Urban Land</strong></summary>
+<p>Land covered by human infrastructure and built environments.</p>
+</details>
+
+<details>
+<summary><strong>Total Biocapacity</strong></summary>
+<p>The capacity of ecosystems to regenerate what people demand from them.</p>
+</details>
+
+<details>
+<summary><strong>Biocapacity Deficit or Reserve</strong></summary>
+<p>The difference between a region’s biocapacity and its Ecological Footprint.</p>
+</details>
+
+<details>
+<summary><strong>Earths Required</strong></summary>
+<p>The number of Earths needed if everyone lived like this population.</p>
+</details>
+
+<details>
+<summary><strong>Countries Required</strong></summary>
+<p>The number of countries with similar biocapacity needed to support the consumption.</p>
+</details>
+
+<details>
+<summary><strong>Data Quality</strong></summary>
+<p>An assessment of the reliability and accuracy of the underlying data.</p>
+</details>
+
+</div>
+</div>
+
+It's also important to note that the dataset was cleaned and prepared to facilitate more efficient analysis. 
+
+
+## Exploratory Analysis
+I will break it down by topic as for how I explored the dataset.
+
+### 1. What variables seem to correlate with ecological footprint? ###
+The most obvious and simple question, is there a single variable or multiple variables that on their own correlate with ecological footprint? First, let's look at the most important variable, the total ecological footprint.
+
+#### Total Ecological Footprint
+```{r} 
+total_ecological_correlations <- pol %>%
+  select(where(is.numeric)) %>%
+  summarise(across(-total_ecological_footprint, 
+                   ~ cor(.x, total_ecological_footprint, use = "complete.obs"))) %>%
+  pivot_longer(everything(), names_to = "predictor", values_to = "correlation") %>%
+  arrange(desc(abs(correlation)))
+
+print(total_ecological_correlations)
+```
+We can ignore earths required as it is also a dependent variable like total ecological footprint, and we are looking for possible causative or explanatory variables that effect the total ecological footprint. With that, it looks like carbon footprint has a considerable correlation, next would be GDP per Capita and HDI. 
+
+Next, let's explore each footprint measured individually to see if one variable specifically explains the others.
+#### Cropland Footprint
+``` {r} 
+cropland_correlations <- pol %>%
+  select(where(is.numeric)) %>%
+  summarise(across(-cropland_footprint, 
+                   ~ cor(.x, cropland_footprint, use = "complete.obs"))) %>%
+  pivot_longer(everything(), names_to = "predictor", values_to = "correlation") %>%
+  arrange(desc(abs(correlation)))
+
+print(cropland_correlations)
+```
+
+Cropland footprint seems to be most correlated with cropland, which might seem obvious, but it is worth validating.
+
+#### Grazing Footprint
+``` {r} 
+grazing_correlations <- pol %>%
+  select(where(is.numeric)) %>%
+  summarise(across(-grazing_footprint, 
+                   ~ cor(.x, grazing_footprint, use = "complete.obs"))) %>%
+  pivot_longer(everything(), names_to = "predictor", values_to = "correlation") %>%
+  arrange(desc(abs(correlation)))
+
+print(grazing_correlations)
+```
+
+Once again, grazing land correlates with grazing footprint the best.
+
+#### Forest Footprint
+``` {r} 
+forest_correlations <- pol %>%
+  select(where(is.numeric)) %>%
+  summarise(across(-forest_footprint, 
+                   ~ cor(.x, forest_footprint, use = "complete.obs"))) %>%
+  pivot_longer(everything(), names_to = "predictor", values_to = "correlation") %>%
+  arrange(desc(abs(correlation)))
+
+print(forest_correlations)
+```
+
+This might seem different at first glance, but it is also obvious. The more urban land and cropland developed by individuals/societies, the more forest must be cleared away, the greater the footprint on forests.
+
+#### Carbon Footprint
+``` {r}
+carbon_correlations <- pol %>%
+  select(where(is.numeric)) %>%
+  summarise(across(-carbon_footprint, 
+                   ~ cor(.x, carbon_footprint, use = "complete.obs"))) %>%
+  pivot_longer(everything(), names_to = "predictor", values_to = "correlation") %>%
+  arrange(desc(abs(correlation)))
+
+print(carbon_correlations)
+```
+
+This variable is the first individual footprint to correlate strongly with GDP per Capita.
+
+
+### 2. Ecological Sustainability Gaps
+The goal of this section is to identify what countries have the largest biocapacity deficits and reserves.
+This is best visualized by viewing the countries in deficit separate from those with a reserve.
+
+#### Countries with a Biocapacity Deficiency
+
+``` {r pol2_country_deficit, fig.width = 12, fig.height = 8} 
+pol2_country_deficit <- pol %>%
+  filter(biocapacity_deficit_or_reserve < 0) %>%
+  arrange(biocapacity_deficit_or_reserve) %>%
+  mutate(country = factor(country, levels = country),
+         half_group = if_else(row_number() <= n() / 2, "Most Severe", "Less Severe")) %>%
+  ggplot(aes(x = country, y = biocapacity_deficit_or_reserve)) +
+  geom_col(fill = "firebrick") +
+  coord_flip() +
+  scale_y_reverse() +
+  facet_wrap(~half_group, scales = "free_y") +
+  labs(title = "Countries in Biocapacity Deficit",
+       subtitle = "Split by Severity: Most Severe vs Less Severe",
+       y = "Biocapacity Deficit",
+       x = NULL) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(size = 6, hjust = 1),
+        strip.text = element_text(face = "bold", size = 10))
+pol2_country_deficit
+```
+
+#### Countries with a Biocapacity Reserve
+
+``` {r, pol2_country_reserve, fig.width = 12, fig.height = 8}
+pol2_country_reserve <- pol %>%
+  filter(biocapacity_deficit_or_reserve > 0) %>%
+  arrange(biocapacity_deficit_or_reserve) %>%
+  mutate(country = factor(country, levels = country)) %>%
+  ggplot(aes(x = country, y = biocapacity_deficit_or_reserve)) +
+  geom_col(fill = "forestgreen") +
+  labs(title = "Countries in Biocapacity Reserve",
+       y = "Biocapacity Reserve",
+       x = NULL) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 70, size = 6, hjust = 1))
+pol2_country_reserve
+```
+
+These two plots demonstrate what countries have the greatest deficits and reserves. It is apparent that few countries, 27.81%, have a biocapacity reserve, with the other 72.19% having a deficit.
+
+We can also observe the same factor by region.
+
+#### Biocapacity Reserve or Deficit by Region
+
+``` {r pol2region_bar, fig.width = 12, fig.height = 8}
+pol2region_bar <- pol %>%
+  group_by(region) %>%
+  summarise(total_deficit_or_reserve = sum(biocapacity_deficit_or_reserve, na.rm = TRUE)) %>%
+  arrange(total_deficit_or_reserve) %>%
+  mutate(region = factor(region, levels = region)) %>%
+  ggplot(aes(x = region, y = total_deficit_or_reserve, fill = total_deficit_or_reserve > 0)) +
+  geom_col() +
+  scale_fill_manual(values = c("TRUE" = "forestgreen", "FALSE" = "darkred"),
+                    labels = c("Deficit", "Reserve")) +
+  labs(title = "Total Biocapacity Deficit or Reserve by Region",
+       y = "Total Biocapacity",
+       x = "Region",
+       fill = "") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(color = "black", angle = 50, size = 8, hjust = 1)) +
+  coord_cartesian(ylim = c(-100, 250))
+pol2region_bar
+```
+
+It is apparent that the top eco-footprint offenders are those in Asia and Europe, while Latin America appears to have a monopoly on Biocapacity reserve.
+
+### 3. Human Development vs. Environmental Impact
+
+This section will explore the question: Is there a tradeoff between quality of life, GDP per capita, and sustainability?
+
+``` {r} 
+pol3 <- pol %>%
+  ggplot(aes(x = hdi, y = total_ecological_footprint)) +
+  geom_point(color = "black", alpha = 0.6) +
+  geom_smooth(color = "green4") +
+  theme_minimal() +
+  labs( title = "Human Development Index vs. Total Ecological Footprint",
+        x = "Human Development Index",
+        y = "Total Ecological Footprint")
+pol3
+```
+
+The plot shows an upward trend that as HDI increases, total ecological footprint also increases.
+
+``` {r} 
+pol4 <- pol %>%
+  ggplot(aes(x = gdp_per_capita, y = total_ecological_footprint)) +
+  geom_point() +
+  geom_smooth() +
+  theme_minimal()
+```
+
+
+### 4. Earths Required vs. Footprint
+
+Another way to view the data is by viewing earths required by footprint. This could give insight as to what footprint is associated with the worst consumption/pollution styles.
+``` {r} 
+Earths_required_vs_footprints <- pol %>%
+  select(earths_required, ends_with('_footprint')) %>%
+  summarise(across(-earths_required, 
+                   ~ cor(.x, earths_required, use = "complete.obs"))) %>%
+  pivot_longer(everything(), names_to = "predictor", values_to = "correlation") %>%
+  arrange(desc(abs(correlation)))
+
+print(Earths_required_vs_footprints)
+```
+
+It looks like carbon footprint is the most significant predictor of poor ecological impact. 
+
+## Building a Predictive Model
+
+The prior analyses only compared single variables, but we know in real life, many factors contribute to an outcome. This is an important topic, as understanding these relationships is essential in order to build meaningful models and make predictions of the dataset. In this section, we will explore what predictive model best fits the data. More specifically, we will try to predict the total ecological footprint based on the variables that explain it best.
+
+### Building various models
+
+Based on the very first correlation analysis above, it's a good idea to start with the most correlated depended variables and expand from there. You will see below in my code that there are four different models. These four models were built in sequence after testing many other variable relationships.
+``` {r}
+library(MASS)
+
+mod1 <- glm(data = pol,
+            formula = total_ecological_footprint ~ population_millions * gdp_per_capita * cropland_footprint,
+            family = 'gaussian')
+
+mod2 <- glm(data = pol,
+            formula = total_ecological_footprint ~ population_millions * hdi * gdp_per_capita * urban_land,
+            family = 'gaussian')
+
+mod3 <- glm(data = pol,
+            formula = total_ecological_footprint ~ population_millions * hdi * gdp_per_capita * forest_land,
+            family = 'gaussian')
+
+mod4 <- glm(data = pol,
+            formula = total_ecological_footprint ~ population_millions * hdi * gdp_per_capita * cropland_footprint * urban_land * forest_land,
+            family = 'gaussian')
+```
+
+
+### Comparing the Moodels
+
+``` {r}
+compare_performance(mod1, mod2, mod3, mod4)
+compare_performance(mod1, mod2, mod3, mod4) %>% plot()
+```
+
+The first table shows important statistical values for each model, and the best model should have a low AIC, AICc, Sigma, and an R2 value closest to 1. The radar chart helps show in a visual manner which model has the best values for each value. The greater the diameter, or proximity of each point to their respective vales, the more ideal the value for that model. So looking at the table and the chart, it is clear that model 4 is the best model for the dataset.
+
+### Measuring Predictive Accuracy
+
+``` {r}
+cv <- createDataPartition(pol$total_ecological_footprint, p = 0.8, list = F)
+pol_train <- pol[cv, ]
+pol_test <- pol[-cv,]
+dim(pol_train)
+dim(pol) 
+
+train_mod4 <- glm(data = pol_train,
+                 formula = mod4$formula,
+                 family = 'gaussian')
+
+pol_test$pred4 <- predict(train_mod4, pol_test, type = 'response')
+
+pol_test_clean <- pol_test %>% 
+  filter(!is.na(population_millions)) %>%
+  filter(!is.na(hdi)) %>%
+  filter(!is.na(gdp_per_capita)) %>%
+  filter(!is.na(cropland_footprint)) %>%
+  filter(!is.na(urban_land)) %>%
+  filter(!is.na(forest_land))
+
+pol_test_clean$pred4 <- predict(train_mod4, newdata = pol_test_clean, type = "response")
+
+ggplot(pol_test, aes(x = total_ecological_footprint, y = pred4)) +
+  geom_point(color = "darkblue") +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "red") +
+  labs(title = "Predicted vs. Actual Ecological Footprint",
+       x = "Actual", y = "Predicted") +
+  theme_minimal()
+
+## Calculate performance metrics
+library(ModelMetrics)
+
+rmse_val4 <- rmse(pol_test_clean$total_ecological_footprint, pol_test_clean$pred4) 
+mae_val4 <- mae(pol_test_clean$total_ecological_footprint, pol_test_clean$pred4)
+r2_val4 <- cor(pol_test_clean$total_ecological_footprint, pol_test_clean$pred4)^2
+
+cat("Root Mean Square Error (RMSE):", round(rmse_val4, 2), "\n")
+cat("Mean Absolute Error (MAE):", round(mae_val4, 2), "\n")
+cat("R-squared on Test Set:", round(r2_val4, 3), "\n")
+```
+
+The predictive model performance drops significantly, meaning the model is likely overfitted to the training data. This overfitting is due to the complexity of the model, so choosing the next best model, mod3, is probably a better idea as it has less variable interactions.
+
+Let's try it again with model 3.
+
+``` {r}
+train_mod3 <- glm(data = pol_train,
+                  formula = mod3$formula,
+                  family = 'gaussian')
+
+pol_test_clean$pred3 <- predict(train_mod3, newdata = pol_test_clean, type = "response")
+
+ggplot(pol_test_clean, aes(x = total_ecological_footprint, y = pred3)) +
+  geom_point(color = "darkblue") +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "red") +
+  labs(title = "Predicted vs. Actual Ecological Footprint",
+       x = "Actual", y = "Predicted") +
+  theme_minimal()
+
+rmse_val3 <- rmse(pol_test_clean$total_ecological_footprint, pol_test_clean$pred3) 
+mae_val3 <- mae(pol_test_clean$total_ecological_footprint, pol_test_clean$pred3)
+r2_val3 <- cor(pol_test_clean$total_ecological_footprint, pol_test_clean$pred3)^2
+
+cat("Root Mean Square Error (RMSE):", round(rmse_val3, 2), "\n")
+cat("Mean Absolute Error (MAE):", round(mae_val3, 2), "\n")
+cat("R-squared on Test Set:", round(r2_val3, 3), "\n")
+```
+
+This predictive model is much better, with improved RMSE, MAE,and R-squared values compared to model 4. This goes to show that modeling can be extremely precise for given data, but it is not always useful for predicting hypothetical values.

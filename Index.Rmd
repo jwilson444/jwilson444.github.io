@@ -1,13 +1,6 @@
 ---
-title: "Welcome to Old Navy"
-author: "Jeremy Wilson"
-date: "2025-04-17"
-output: 
-  html_document:
-    theme: darkly
-    toc: true
-    toc_float: true
-    code_folding: hide
+title: "My Really Cool Website"
+output: html_document
 
 ---
 
@@ -15,22 +8,14 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## [ABOUT ME](./) | [CV](./CV/CV.html) | [BIOL 3100 - FINAL PROJECT](./Final_Project.html)
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+# Jeremy Wilson 
+### Aspiring Physician
+UVU student from Phoenix, Arizona. Microbiology major and enthusiast. 
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r, out.width = "50%", echo = FALSE}
+knitr::include_graphics("./images/Wilson_Profile_Picture.png")
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Welcome to my website, Don't click on About Me, it doesn't work. But you can you view my CV and my final project.

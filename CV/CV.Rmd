@@ -1,0 +1,116 @@
+---
+name: "Jeremy Wilson"
+title: "Aspiring Physician"
+output: 
+  pagedown::html_resume:
+    self_contained: true
+    css: ["default-fonts", "default"]
+    number_sections: false
+    toc: false
+    toc_depth: 2
+    keep_md: true
+contact:
+  - 10844786@uvu.edu
+  - 602-499-9464
+  - Utah Valley University
+---
+
+
+``` {r knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)}
+```
+
+# Summarized Personal Statement
+
+Aspiring physician with a strong foundation in science, patient advocacy, and community service. Passionate about lifelong learning, compassionate care, and advancing medical knowledge. Dedicated to a career of service, excellence, and ethical leadership. Committed to applying analytical thinking, empathy, and resilience to my medical training and beyond.
+
+# Education
+
+**Utah Valley University**, Orem, UT  
+*Bachelor of Science in Microbiology*  
+_Expected Graduation: April 2026 | Expected GPA: 3.7–3.8_
+
+**Western Maricopa Education Center**, Phoenix, AZ  
+*Certified Clinical Medical Assistant (CCMA)*  
+_Graduated: May 2018_
+
+## Relevant Coursework
+
+Biology, Chemistry, Organic Chemistry, Biochemistry, Physics, Academic Writing, Behavioral Sciences, Statistics, Data Analysis, Advanced Spanish, Anatomy & Physiology, Genetics, Microbiology.
+
+# Clinical & Volunteer Experience
+
+**Medical Assistant and Scribe**  
+_Intermountain Heart Institute – Utah Valley Region_  
+_Oct 2021 – Jan 2025_  
+While maintaining full-time academic standing, I worked in a high-demand cardiology clinic where I played a key role in its expansion from two to five locations. I contributed to clinical operations by standardizing MA training, managing staffing logistics, and implementing workflow improvements. I served as a central resource for team support, advocated for underserved patients, and helped ensure a positive, communicative care environment.
+
+**Court Appointed Special Advocate (CASA)**  
+_Fourth District CASA Program_  
+_Nov 2024 – Ongoing_  
+As a CASA volunteer, I advocate for the best interests of two children involved in a long-term DCFS case, supporting their emotional well-being through regular visits. I build trusting relationships, guide them toward their goals, and report case insights and recommendations to their Guardian ad Litem.
+
+**Youth Group Advisor**  
+_Church of Jesus Christ of Latter-Day Saints_  
+_May 2023 – Ongoing_  
+I mentor young men (ages 15–18), fostering personal growth, leadership, and service. I organize activities ranging from service visits to career workshops and outdoor expeditions to promote teamwork, integrity, and character development.
+
+**Engin Buddy – English Teacher**  
+_Engin Program_  
+_Mar 2023 – Oct 2023_  
+I taught conversational English virtually to a Ukrainian student, creating tailored lessons and interactive discussions to improve language fluency, confidence, and cross-cultural connection.
+
+**Health & Materials Secretary**  
+_Colombia Bogotá North Mission_  
+_Sep 2019 – Feb 2020_  
+I managed the health needs of 180–220 missionaries across five Colombian states, coordinating emergency care, mental health support, and insurance logistics. I also oversaw distribution of medical supplies and delivered health education on hygiene and disease prevention in a foreign environment.
+
+# Research Experience
+
+**Isolation and characterization of a novel bacteriophage against a multi drug-resistant strain of Pseudomonas aeruginosa**  
+_UVU, College of Science – with Dr. Ruhul Kuddus_  
+_Aug 2024 – Ongoing_  
+Under the mentorship of Dr. Ruhul Kuddus, I am participating in conducting research focused on isolating and characterizing a bacteriophage capable of targeting multidrug-resistant *P. aeruginosa*. To date, we have isolated and purified a novel phage and completed preliminary host range assays, genomic sequencing, and morphological analysis (via electron microscopy at BYU). Ongoing and future work includes further genomic and phenotypic characterization, with plans to submit a manuscript to *Frontiers in Microbiology*.
+
+**Expression of wheat oxalate oxidase in Bacillus subtilis to protect American Chestnuts from Cryphonectria parasitica**  
+_UVU, College of Science – with Dr. Margie Beucher_  
+_Jan 2025 – Ongoing_  
+Collaborating with Dr. Margie Beucher and peers, helped develop a research project aimed at genetically modifying *Bacillus subtilis* to express a protective gene within the American Chestnut tree, combating Chestnut Blight. We are currently executing bacterial transformation experiments and will progress to testing for endophytic potential and gene expression. The work incorporates genomic analysis, protein expression techniques, and plant microbiome research.
+
+# Publications & Presentations
+
+**Peer-Reviewed Journal Articles**  
+*Manuscript in preparation* – “Isolation and characterization of a novel bacteriophage against a multidrug-resistant strain of *Pseudomonas aeruginosa*.” Targeting submission to *Frontiers in Microbiology* or a similar journal.
+
+**Conferences**  
+- *UCUR*, Southern Utah University (Feb 2025)  
+- *SCUPLT Showcase*, UVU (Apr 2025)  
+- *UVU College of Science Showcase* (Apr 2025)
+
+# Leadership & Activities
+
+- Lead MA, Intermountain Heart Institute (2021–2025)  
+- Member, UVU Microbiology Club (2025)  
+- Rim-to-Rim Grand Canyon Hike in 1 day (Oct 2024)  
+- Haunted Half Marathon, Provo (Oct 2023)  
+- Performing Cellist in church/school groups (2010–present)
+
+# Awards
+
+- Dean’s List, UVU (2022, 2023)
+
+# Skills
+
+**Technical**  
+- Laboratory techniques in chemistry, biochemistry, microbiology  
+- Clinical EHR, bilingual interpretation, medical scribing
+
+**Languages**  
+- English – Native  
+- Spanish – Advanced (Medical & Conversational)
+
+**Certifications**  
+- CCMA, BLS, QBS
+
+# References
+
+Available upon request.

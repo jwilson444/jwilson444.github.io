@@ -24,6 +24,7 @@ library(sf)
 pol <- read_csv('countries.csv')
 View(pol)
 
+
 #Let's clean it up ####
 pol <- pol %>%
   clean_names() %>% #standardize col names
@@ -138,17 +139,25 @@ print(fish_correlations)
 ## 2. Ecological Sustainability Gaps ####
 ### Investigate which countries/regions have largest biocapacity deficits
 #### bar plot of countries in deficit ####
-pol2_country_deficit <- pol %>% 
+pol2_country_deficit <- pol %>%
   filter(biocapacity_deficit_or_reserve < 0) %>%
   arrange(biocapacity_deficit_or_reserve) %>%
-  mutate(country = factor(country, levels = country)) %>%
+  mutate(country = factor(country, levels = country),
+         half_group = if_else(row_number() <= n() / 2, "Most Severe", "Less Severe")) %>%
   ggplot(aes(x = country, y = biocapacity_deficit_or_reserve)) +
   geom_col(fill = "firebrick") +
+  coord_flip() +
+  scale_y_reverse() +
+  facet_wrap(~half_group, scales = "free_y") +
   labs(title = "Countries in Biocapacity Deficit",
+       subtitle = "Split by Severity: Most Severe vs Less Severe",
        y = "Biocapacity Deficit",
        x = NULL) +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 70, size = 6, hjust = 1))
+  theme(axis.text.x = element_text(size = 6, hjust = 1),
+        strip.text = element_text(face = "bold", size = 10))
+pol2_country_deficit
+
 
 #### bar plot of countries with reserve ####
 pol2_country_reserve <- pol %>%
@@ -163,6 +172,9 @@ pol2_country_reserve <- pol %>%
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 70, size = 6, hjust = 1))
 
+pol %>%
+  filter(biocapacity_deficit_or_reserve < 0) %>%
+  count()
 #### bar plot of regions reserve/deficit ####
 pol2region_bar <- pol %>%
   group_by(region) %>%
@@ -172,7 +184,7 @@ pol2region_bar <- pol %>%
   ggplot(aes(x = region, y = total_deficit_or_reserve, fill = total_deficit_or_reserve > 0)) +
   geom_col() +
   scale_fill_manual(values = c("TRUE" = "forestgreen", "FALSE" = "darkred"),
-                    labels = c("Reserve", "Deficit")) +
+                    labels = c("Deficit", "Reserve")) +
   labs(title = "Total Biocapacity Deficit or Reserve by Region",
        y = "Total Biocapacity",
        x = "Region",
@@ -194,7 +206,7 @@ pol3 <- pol %>%
         x = "Human Development Index",
         y = "Total Ecological Footprint")
 
-## 4. GDP and Footprint ####
+## *** 4. GDP and Footprint ####
 #Does GDP per capita predict carbon or total footprint?
 #Great to explore economic development vs. environmental cost.
 #Could split countries into income groups and compare average footprints.
@@ -232,7 +244,7 @@ print(Earths_required_vs_footprints)
 #Use GDP, HDI, population, etc. as predictors.
 #Identify most important variables using regression or random forest.
 #Goal: What drives a country’s footprint the most?
-library(MASS, )
+library(MASS)
 mod1 <- glm(data = pol,
             formula = total_ecological_footprint ~ population_millions * gdp_per_capita * cropland_footprint,
             family = 'gaussian')
@@ -249,27 +261,71 @@ mod4 <- glm(data = pol,
             formula = total_ecological_footprint ~ population_millions * hdi * gdp_per_capita * cropland_footprint * urban_land * forest_land,
             family = 'gaussian')
 
-
 compare_performance(mod1, mod2, mod3, mod4) %>% plot()
 
+# Predictions
 cv <- createDataPartition(pol$total_ecological_footprint, p = 0.8, list = F)
 pol_train <- pol[cv, ]
 pol_test <- pol[-cv,]
 dim(pol_train)
 dim(pol) 
 
-train_mod <- glm(data = pol_train,
+train_mod4 <- glm(data = pol_train,
                  formula = mod4$formula,
                  family = 'gaussian')
 
-pol_test$pred1 <- predict(train_mod, pol_test, type = 'response')
+pol_test$pred4 <- predict(train_mod4, pol_test, type = 'response')
 
+pol_test_clean <- pol_test %>% 
+  filter(!is.na(population_millions)) %>%
+  filter(!is.na(hdi)) %>%
+  filter(!is.na(gdp_per_capita)) %>%
+  filter(!is.na(cropland_footprint)) %>%
+  filter(!is.na(urban_land)) %>%
+  filter(!is.na(forest_land))
 
-ggplot(pol_test, aes(x = total_ecological_footprint, y = pred1)) +
+pol_test_clean$pred4 <- predict(train_mod4, newdata = pol_test_clean, type = "response")
+
+ggplot(pol_test, aes(x = total_ecological_footprint, y = pred4)) +
   geom_point(color = "darkblue") +
   geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "red") +
   labs(title = "Predicted vs. Actual Ecological Footprint",
        x = "Actual", y = "Predicted") +
   theme_minimal()
 
-# Since total ecological footprint is the sum of all of the variables, the model can be very accurate as you add more variables. This is likely over fitted though and poor for unexpected values due to its complexity.
+
+## Calculate performance metrics manually
+library(ModelMetrics)
+
+rmse_val4 <- rmse(pol_test_clean$total_ecological_footprint, pol_test_clean$pred4) 
+mae_val4 <- mae(pol_test_clean$total_ecological_footprint, pol_test_clean$pred4)
+r2_val4 <- cor(pol_test_clean$total_ecological_footprint, pol_test_clean$pred4)^2
+
+cat("Root Mean Square Error (RMSE):", round(rmse_val4, 2), "\n")
+cat("Mean Absolute Error (MAE):", round(mae_val4, 2), "\n")
+cat("R-squared on Test Set:", round(r2_val4, 3), "\n")
+
+# The predictive model performance drops significantly, meaning the model was likely overfitted to the training data. 
+
+# Try again with mod3, less variables
+
+train_mod3 <- glm(data = pol_train,
+                  formula = mod3$formula,
+                  family = 'gaussian')
+
+pol_test_clean$pred3 <- predict(train_mod3, newdata = pol_test_clean, type = "response")
+
+ggplot(pol_test_clean, aes(x = total_ecological_footprint, y = pred3)) +
+  geom_point(color = "darkblue") +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "red") +
+  labs(title = "Predicted vs. Actual Ecological Footprint",
+       x = "Actual", y = "Predicted") +
+  theme_minimal()
+
+rmse_val3 <- rmse(pol_test_clean$total_ecological_footprint, pol_test_clean$pred3) 
+mae_val3 <- mae(pol_test_clean$total_ecological_footprint, pol_test_clean$pred3)
+r2_val3 <- cor(pol_test_clean$total_ecological_footprint, pol_test_clean$pred3)^2
+
+cat("Root Mean Square Error (RMSE):", round(rmse_val3, 2), "\n")
+cat("Mean Absolute Error (MAE):", round(mae_val3, 2), "\n")
+cat("R-squared on Test Set:", round(r2_val3, 3), "\n")
