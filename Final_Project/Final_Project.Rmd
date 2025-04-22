@@ -1,14 +1,15 @@
 ---
 title: "An analysis of global ecological footprint"
-output: 
+author: "Jeremy Wilson"
+date: "2025-04-22"
+output:
+  pdf_document:
+    toc: true
   html_document:
     theme: darkly
     toc: true
     toc_float: true
     code_folding: hide
-date: "2025-04-22"
-author: "Jeremy Wilson"
-
 ---
 ---
 

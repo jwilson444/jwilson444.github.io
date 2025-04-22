@@ -1,0 +1,945 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={An analysis of global ecological footprint},
+  pdfauthor={Jeremy Wilson},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{An analysis of global ecological footprint}
+\author{Jeremy Wilson}
+\date{2025-04-22}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Introduction}\label{introduction}
+
+The goal of this report is to explore and analyze a dataset regarding
+the ecological footprint of the world. If possible, specific
+characteristics will be identified that correlate with ecological
+impact. This page will first give some background information regarding
+the dataset and relevant info for the reader. Then, it will explore a
+series of analytical questions. Following the exploratory analysis, a
+predictive model will be developed and tested. I hope you enjoy.
+
+\subsection{Background and Data}\label{background-and-data}
+
+The dataset countries.csv was obtained from Kaggle at the following
+link:
+\url{https://www.kaggle.com/datasets/footprintnetwork/ecological-footprint}
+The data therein was obtained from the Global Footprint Network, an
+international organization that tracks and works on issues of global
+ecological importance. The dataset is rather extensive, and so a
+glossary is provided below, simply click each term as needed to expand
+it and see the definition.
+
+\subsubsection{Glossary}\label{glossary}
+
+Country
+
+The nation-state or territory for which the ecological data is reported.
+
+Region
+
+A geographic area comprising multiple countries, often grouped for
+analytical purposes.
+
+Population in Millions
+
+The total number of people residing in the country, expressed in
+millions.
+
+HDI
+
+A composite index measuring average achievement in key dimensions of
+human development: health, education, and standard of living.
+
+GDP per Capita
+
+The gross domestic product divided by the midyear population, indicating
+the average economic output per person.
+
+Cropland Footprint
+
+The amount of cropland required to grow crops for food and fiber, feed
+for livestock, oil crops, and rubber.
+
+Grazing Footprint
+
+The area of grassland used to raise livestock for meat, dairy, hide, and
+wool products.
+
+Forest Footprint
+
+The forest area required to supply timber, pulp, and fuel wood consumed
+by a country.
+
+Carbon Footprint
+
+The amount of forest land required to absorb CO₂ emissions from fossil
+fuel combustion.
+
+Fish Footprint
+
+The area of marine and inland water ecosystems required to support the
+annual catch of fish.
+
+Total Ecological Footprint
+
+The sum of all resource demands placed on nature by a population.
+
+Cropland
+
+Biologically productive land used for growing crops for food, fiber, and
+feed.
+
+Grazing Land
+
+Land used for raising livestock through grazing.
+
+Forest Land
+
+Land covered by forests that provide timber and absorb carbon.
+
+Fishing Water
+
+Marine and inland water bodies that provide fish and aquatic resources.
+
+Urban Land
+
+Land covered by human infrastructure and built environments.
+
+Total Biocapacity
+
+The capacity of ecosystems to regenerate what people demand from them.
+
+Biocapacity Deficit or Reserve
+
+The difference between a region's biocapacity and its Ecological
+Footprint.
+
+Earths Required
+
+The number of Earths needed if everyone lived like this population.
+
+Countries Required
+
+The number of countries with similar biocapacity needed to support the
+consumption.
+
+Data Quality
+
+An assessment of the reliability and accuracy of the underlying data.
+
+It's also important to note that the dataset was cleaned and prepared to
+facilitate more efficient analysis.
+
+\subsection{Exploratory Analysis}\label{exploratory-analysis}
+
+I will break it down by topic as for how I explored the dataset.
+
+\subsubsection{1. What variables seem to correlate with ecological
+footprint?}\label{what-variables-seem-to-correlate-with-ecological-footprint}
+
+The most obvious and simple question, is there a single variable or
+multiple variables that on their own correlate with ecological
+footprint? First, let's look at the most important variable, the total
+ecological footprint.
+
+\paragraph{Total Ecological Footprint}\label{total-ecological-footprint}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{total\_ecological\_correlations }\OtherTok{\textless{}{-}}\NormalTok{ pol }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\FunctionTok{where}\NormalTok{(is.numeric)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{total\_ecological\_footprint, }
+                   \SpecialCharTok{\textasciitilde{}} \FunctionTok{cor}\NormalTok{(.x, total\_ecological\_footprint, }\AttributeTok{use =} \StringTok{"complete.obs"}\NormalTok{))) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\AttributeTok{names\_to =} \StringTok{"predictor"}\NormalTok{, }\AttributeTok{values\_to =} \StringTok{"correlation"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(}\FunctionTok{abs}\NormalTok{(correlation)))}
+
+\FunctionTok{print}\NormalTok{(total\_ecological\_correlations)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 17 x 2
+##    predictor                      correlation
+##    <chr>                                <dbl>
+##  1 earths_required                     1.00  
+##  2 carbon_footprint                    0.952 
+##  3 gdp_per_capita                      0.799 
+##  4 hdi                                 0.739 
+##  5 cropland_footprint                  0.588 
+##  6 forest_footprint                    0.400 
+##  7 urban_land                          0.357 
+##  8 cropland                            0.303 
+##  9 countries_required                  0.283 
+## 10 grazing_footprint                   0.275 
+## 11 fish_footprint                      0.193 
+## 12 fishing_water                       0.145 
+## 13 biocapacity_deficit_or_reserve     -0.135 
+## 14 grazing_land                        0.0937
+## 15 total_biocapacity                   0.0666
+## 16 population_millions                -0.0577
+## 17 forest_land                         0.0260
+\end{verbatim}
+
+We can ignore earths required as it is also a dependent variable like
+total ecological footprint, and we are looking for possible causative or
+explanatory variables that effect the total ecological footprint. With
+that, it looks like carbon footprint has a considerable correlation,
+next would be GDP per Capita and HDI.
+
+Next, let's explore each footprint measured individually to see if one
+variable specifically explains the others. \#\#\#\# Cropland Footprint
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cropland\_correlations }\OtherTok{\textless{}{-}}\NormalTok{ pol }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\FunctionTok{where}\NormalTok{(is.numeric)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{cropland\_footprint, }
+                   \SpecialCharTok{\textasciitilde{}} \FunctionTok{cor}\NormalTok{(.x, cropland\_footprint, }\AttributeTok{use =} \StringTok{"complete.obs"}\NormalTok{))) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\AttributeTok{names\_to =} \StringTok{"predictor"}\NormalTok{, }\AttributeTok{values\_to =} \StringTok{"correlation"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(}\FunctionTok{abs}\NormalTok{(correlation)))}
+
+\FunctionTok{print}\NormalTok{(cropland\_correlations)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 17 x 2
+##    predictor                      correlation
+##    <chr>                                <dbl>
+##  1 cropland                            0.765 
+##  2 total_ecological_footprint          0.588 
+##  3 earths_required                     0.588 
+##  4 hdi                                 0.567 
+##  5 gdp_per_capita                      0.506 
+##  6 forest_footprint                    0.438 
+##  7 urban_land                          0.432 
+##  8 carbon_footprint                    0.410 
+##  9 biocapacity_deficit_or_reserve     -0.0952
+## 10 fish_footprint                      0.0802
+## 11 grazing_footprint                   0.0779
+## 12 fishing_water                       0.0770
+## 13 grazing_land                        0.0747
+## 14 forest_land                        -0.0515
+## 15 countries_required                  0.0232
+## 16 population_millions                -0.0196
+## 17 total_biocapacity                   0.0162
+\end{verbatim}
+
+Cropland footprint seems to be most correlated with cropland, which
+might seem obvious, but it is worth validating.
+
+\paragraph{Grazing Footprint}\label{grazing-footprint}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{grazing\_correlations }\OtherTok{\textless{}{-}}\NormalTok{ pol }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\FunctionTok{where}\NormalTok{(is.numeric)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{grazing\_footprint, }
+                   \SpecialCharTok{\textasciitilde{}} \FunctionTok{cor}\NormalTok{(.x, grazing\_footprint, }\AttributeTok{use =} \StringTok{"complete.obs"}\NormalTok{))) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\AttributeTok{names\_to =} \StringTok{"predictor"}\NormalTok{, }\AttributeTok{values\_to =} \StringTok{"correlation"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(}\FunctionTok{abs}\NormalTok{(correlation)))}
+
+\FunctionTok{print}\NormalTok{(grazing\_correlations)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 17 x 2
+##    predictor                      correlation
+##    <chr>                                <dbl>
+##  1 grazing_land                        0.696 
+##  2 total_ecological_footprint          0.275 
+##  3 earths_required                     0.275 
+##  4 carbon_footprint                    0.126 
+##  5 gdp_per_capita                      0.105 
+##  6 cropland                            0.104 
+##  7 hdi                                 0.0922
+##  8 total_biocapacity                   0.0897
+##  9 urban_land                          0.0872
+## 10 population_millions                -0.0849
+## 11 cropland_footprint                  0.0779
+## 12 fishing_water                       0.0741
+## 13 forest_footprint                    0.0570
+## 14 fish_footprint                     -0.0555
+## 15 biocapacity_deficit_or_reserve      0.0372
+## 16 countries_required                 -0.0299
+## 17 forest_land                         0.0174
+\end{verbatim}
+
+Once again, grazing land correlates with grazing footprint the best.
+
+\paragraph{Forest Footprint}\label{forest-footprint}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{forest\_correlations }\OtherTok{\textless{}{-}}\NormalTok{ pol }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\FunctionTok{where}\NormalTok{(is.numeric)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{forest\_footprint, }
+                   \SpecialCharTok{\textasciitilde{}} \FunctionTok{cor}\NormalTok{(.x, forest\_footprint, }\AttributeTok{use =} \StringTok{"complete.obs"}\NormalTok{))) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\AttributeTok{names\_to =} \StringTok{"predictor"}\NormalTok{, }\AttributeTok{values\_to =} \StringTok{"correlation"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(}\FunctionTok{abs}\NormalTok{(correlation)))}
+
+\FunctionTok{print}\NormalTok{(forest\_correlations)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 17 x 2
+##    predictor                      correlation
+##    <chr>                                <dbl>
+##  1 urban_land                          0.457 
+##  2 cropland_footprint                  0.438 
+##  3 cropland                            0.416 
+##  4 earths_required                     0.400 
+##  5 total_ecological_footprint          0.400 
+##  6 gdp_per_capita                      0.278 
+##  7 hdi                                 0.231 
+##  8 carbon_footprint                    0.195 
+##  9 total_biocapacity                   0.173 
+## 10 forest_land                         0.143 
+## 11 fishing_water                       0.112 
+## 12 biocapacity_deficit_or_reserve      0.0960
+## 13 grazing_land                        0.0867
+## 14 countries_required                  0.0805
+## 15 population_millions                -0.0779
+## 16 grazing_footprint                   0.0570
+## 17 fish_footprint                     -0.0420
+\end{verbatim}
+
+This might seem different at first glance, but it is also obvious. The
+more urban land and cropland developed by individuals/societies, the
+more forest must be cleared away, the greater the footprint on forests.
+
+\paragraph{Carbon Footprint}\label{carbon-footprint}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{carbon\_correlations }\OtherTok{\textless{}{-}}\NormalTok{ pol }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\FunctionTok{where}\NormalTok{(is.numeric)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{carbon\_footprint, }
+                   \SpecialCharTok{\textasciitilde{}} \FunctionTok{cor}\NormalTok{(.x, carbon\_footprint, }\AttributeTok{use =} \StringTok{"complete.obs"}\NormalTok{))) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\AttributeTok{names\_to =} \StringTok{"predictor"}\NormalTok{, }\AttributeTok{values\_to =} \StringTok{"correlation"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(}\FunctionTok{abs}\NormalTok{(correlation)))}
+
+\FunctionTok{print}\NormalTok{(carbon\_correlations)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 17 x 2
+##    predictor                      correlation
+##    <chr>                                <dbl>
+##  1 earths_required                     0.952 
+##  2 total_ecological_footprint          0.952 
+##  3 gdp_per_capita                      0.824 
+##  4 hdi                                 0.699 
+##  5 cropland_footprint                  0.410 
+##  6 countries_required                  0.307 
+##  7 urban_land                          0.224 
+##  8 forest_footprint                    0.195 
+##  9 fish_footprint                      0.156 
+## 10 biocapacity_deficit_or_reserve     -0.152 
+## 11 grazing_footprint                   0.126 
+## 12 cropland                            0.119 
+## 13 fishing_water                       0.113 
+## 14 grazing_land                       -0.0418
+## 15 total_biocapacity                   0.0288
+## 16 population_millions                -0.0212
+## 17 forest_land                         0.0104
+\end{verbatim}
+
+This variable is the first individual footprint to correlate strongly
+with GDP per Capita.
+
+\subsubsection{2. Ecological Sustainability
+Gaps}\label{ecological-sustainability-gaps}
+
+The goal of this section is to identify what countries have the largest
+biocapacity deficits and reserves. This is best visualized by viewing
+the countries in deficit separate from those with a reserve.
+
+\paragraph{Countries with a Biocapacity
+Deficiency}\label{countries-with-a-biocapacity-deficiency}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pol2\_country\_deficit }\OtherTok{\textless{}{-}}\NormalTok{ pol }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(biocapacity\_deficit\_or\_reserve }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(biocapacity\_deficit\_or\_reserve) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{country =} \FunctionTok{factor}\NormalTok{(country, }\AttributeTok{levels =}\NormalTok{ country),}
+         \AttributeTok{half\_group =} \FunctionTok{if\_else}\NormalTok{(}\FunctionTok{row\_number}\NormalTok{() }\SpecialCharTok{\textless{}=} \FunctionTok{n}\NormalTok{() }\SpecialCharTok{/} \DecValTok{2}\NormalTok{, }\StringTok{"Most Severe"}\NormalTok{, }\StringTok{"Less Severe"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ country, }\AttributeTok{y =}\NormalTok{ biocapacity\_deficit\_or\_reserve)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_col}\NormalTok{(}\AttributeTok{fill =} \StringTok{"firebrick"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{coord\_flip}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_reverse}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{half\_group, }\AttributeTok{scales =} \StringTok{"free\_y"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Countries in Biocapacity Deficit"}\NormalTok{,}
+       \AttributeTok{subtitle =} \StringTok{"Split by Severity: Most Severe vs Less Severe"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Biocapacity Deficit"}\NormalTok{,}
+       \AttributeTok{x =} \ConstantTok{NULL}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{6}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{),}
+        \AttributeTok{strip.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{face =} \StringTok{"bold"}\NormalTok{, }\AttributeTok{size =} \DecValTok{10}\NormalTok{))}
+\NormalTok{pol2\_country\_deficit}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Final_Project_files/figure-latex/pol2_country_deficit-1.pdf}
+
+\paragraph{Countries with a Biocapacity
+Reserve}\label{countries-with-a-biocapacity-reserve}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pol2\_country\_reserve }\OtherTok{\textless{}{-}}\NormalTok{ pol }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(biocapacity\_deficit\_or\_reserve }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(biocapacity\_deficit\_or\_reserve) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{country =} \FunctionTok{factor}\NormalTok{(country, }\AttributeTok{levels =}\NormalTok{ country)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ country, }\AttributeTok{y =}\NormalTok{ biocapacity\_deficit\_or\_reserve)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_col}\NormalTok{(}\AttributeTok{fill =} \StringTok{"forestgreen"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Countries in Biocapacity Reserve"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Biocapacity Reserve"}\NormalTok{,}
+       \AttributeTok{x =} \ConstantTok{NULL}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{70}\NormalTok{, }\AttributeTok{size =} \DecValTok{6}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\NormalTok{pol2\_country\_reserve}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Final_Project_files/figure-latex/pol2_country_reserve-1.pdf}
+
+These two plots demonstrate what countries have the greatest deficits
+and reserves. It is apparent that few countries, 27.81\%, have a
+biocapacity reserve, with the other 72.19\% having a deficit.
+
+We can also observe the same factor by region.
+
+\paragraph{Biocapacity Reserve or Deficit by
+Region}\label{biocapacity-reserve-or-deficit-by-region}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pol2region\_bar }\OtherTok{\textless{}{-}}\NormalTok{ pol }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(region) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{total\_deficit\_or\_reserve =} \FunctionTok{sum}\NormalTok{(biocapacity\_deficit\_or\_reserve, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(total\_deficit\_or\_reserve) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{region =} \FunctionTok{factor}\NormalTok{(region, }\AttributeTok{levels =}\NormalTok{ region)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ region, }\AttributeTok{y =}\NormalTok{ total\_deficit\_or\_reserve, }\AttributeTok{fill =}\NormalTok{ total\_deficit\_or\_reserve }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_col}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"TRUE"} \OtherTok{=} \StringTok{"forestgreen"}\NormalTok{, }\StringTok{"FALSE"} \OtherTok{=} \StringTok{"darkred"}\NormalTok{),}
+                    \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Deficit"}\NormalTok{, }\StringTok{"Reserve"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Total Biocapacity Deficit or Reserve by Region"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Total Biocapacity"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Region"}\NormalTok{,}
+       \AttributeTok{fill =} \StringTok{""}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{angle =} \DecValTok{50}\NormalTok{, }\AttributeTok{size =} \DecValTok{8}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{coord\_cartesian}\NormalTok{(}\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{100}\NormalTok{, }\DecValTok{250}\NormalTok{))}
+\NormalTok{pol2region\_bar}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Final_Project_files/figure-latex/pol2region_bar-1.pdf}
+
+It is apparent that the top eco-footprint offenders are those in Asia
+and Europe, while Latin America appears to have a monopoly on
+Biocapacity reserve.
+
+\subsubsection{3. Human Development vs.~Environmental
+Impact}\label{human-development-vs.-environmental-impact}
+
+This section will explore the question: Is there a tradeoff between
+quality of life, GDP per capita, and sustainability?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pol3 }\OtherTok{\textless{}{-}}\NormalTok{ pol }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ hdi, }\AttributeTok{y =}\NormalTok{ total\_ecological\_footprint)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.6}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{color =} \StringTok{"green4"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{( }\AttributeTok{title =} \StringTok{"Human Development Index vs. Total Ecological Footprint"}\NormalTok{,}
+        \AttributeTok{x =} \StringTok{"Human Development Index"}\NormalTok{,}
+        \AttributeTok{y =} \StringTok{"Total Ecological Footprint"}\NormalTok{)}
+\NormalTok{pol3}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 16 rows containing non-finite outside the scale range
+## (`stat_smooth()`).
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 16 rows containing missing values or values outside the scale range
+## (`geom_point()`).
+\end{verbatim}
+
+\includegraphics{Final_Project_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+The plot shows an upward trend that as HDI increases, total ecological
+footprint also increases.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pol4 }\OtherTok{\textless{}{-}}\NormalTok{ pol }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ gdp\_per\_capita, }\AttributeTok{y =}\NormalTok{ total\_ecological\_footprint)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{4. Earths Required
+vs.~Footprint}\label{earths-required-vs.-footprint}
+
+Another way to view the data is by viewing earths required by footprint.
+This could give insight as to what footprint is associated with the
+worst consumption/pollution styles.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Earths\_required\_vs\_footprints }\OtherTok{\textless{}{-}}\NormalTok{ pol }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(earths\_required, }\FunctionTok{ends\_with}\NormalTok{(}\StringTok{\textquotesingle{}\_footprint\textquotesingle{}}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{earths\_required, }
+                   \SpecialCharTok{\textasciitilde{}} \FunctionTok{cor}\NormalTok{(.x, earths\_required, }\AttributeTok{use =} \StringTok{"complete.obs"}\NormalTok{))) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\AttributeTok{names\_to =} \StringTok{"predictor"}\NormalTok{, }\AttributeTok{values\_to =} \StringTok{"correlation"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(}\FunctionTok{abs}\NormalTok{(correlation)))}
+
+\FunctionTok{print}\NormalTok{(Earths\_required\_vs\_footprints)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 2
+##   predictor                  correlation
+##   <chr>                            <dbl>
+## 1 total_ecological_footprint       1.00 
+## 2 carbon_footprint                 0.952
+## 3 cropland_footprint               0.588
+## 4 forest_footprint                 0.400
+## 5 grazing_footprint                0.275
+## 6 fish_footprint                   0.193
+\end{verbatim}
+
+It looks like carbon footprint is the most significant predictor of poor
+ecological impact.
+
+\subsection{Building a Predictive
+Model}\label{building-a-predictive-model}
+
+The prior analyses only compared single variables, but we know in real
+life, many factors contribute to an outcome. This is an important topic,
+as understanding these relationships is essential in order to build
+meaningful models and make predictions of the dataset. In this section,
+we will explore what predictive model best fits the data. More
+specifically, we will try to predict the total ecological footprint
+based on the variables that explain it best.
+
+\subsubsection{Building various models}\label{building-various-models}
+
+Based on the very first correlation analysis above, it's a good idea to
+start with the most correlated depended variables and expand from there.
+You will see below in my code that there are four different models.
+These four models were built in sequence after testing many other
+variable relationships.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(MASS)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'MASS'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:patchwork':
+## 
+##     area
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:dplyr':
+## 
+##     select
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod1 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(}\AttributeTok{data =}\NormalTok{ pol,}
+            \AttributeTok{formula =}\NormalTok{ total\_ecological\_footprint }\SpecialCharTok{\textasciitilde{}}\NormalTok{ population\_millions }\SpecialCharTok{*}\NormalTok{ gdp\_per\_capita }\SpecialCharTok{*}\NormalTok{ cropland\_footprint,}
+            \AttributeTok{family =} \StringTok{\textquotesingle{}gaussian\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{mod2 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(}\AttributeTok{data =}\NormalTok{ pol,}
+            \AttributeTok{formula =}\NormalTok{ total\_ecological\_footprint }\SpecialCharTok{\textasciitilde{}}\NormalTok{ population\_millions }\SpecialCharTok{*}\NormalTok{ hdi }\SpecialCharTok{*}\NormalTok{ gdp\_per\_capita }\SpecialCharTok{*}\NormalTok{ urban\_land,}
+            \AttributeTok{family =} \StringTok{\textquotesingle{}gaussian\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{mod3 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(}\AttributeTok{data =}\NormalTok{ pol,}
+            \AttributeTok{formula =}\NormalTok{ total\_ecological\_footprint }\SpecialCharTok{\textasciitilde{}}\NormalTok{ population\_millions }\SpecialCharTok{*}\NormalTok{ hdi }\SpecialCharTok{*}\NormalTok{ gdp\_per\_capita }\SpecialCharTok{*}\NormalTok{ forest\_land,}
+            \AttributeTok{family =} \StringTok{\textquotesingle{}gaussian\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{mod4 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(}\AttributeTok{data =}\NormalTok{ pol,}
+            \AttributeTok{formula =}\NormalTok{ total\_ecological\_footprint }\SpecialCharTok{\textasciitilde{}}\NormalTok{ population\_millions }\SpecialCharTok{*}\NormalTok{ hdi }\SpecialCharTok{*}\NormalTok{ gdp\_per\_capita }\SpecialCharTok{*}\NormalTok{ cropland\_footprint }\SpecialCharTok{*}\NormalTok{ urban\_land }\SpecialCharTok{*}\NormalTok{ forest\_land,}
+            \AttributeTok{family =} \StringTok{\textquotesingle{}gaussian\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Comparing the Moodels}\label{comparing-the-moodels}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{compare\_performance}\NormalTok{(mod1, mod2, mod3, mod4)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## When comparing models, please note that probably not all models were fit
+##   from same data.
+\end{verbatim}
+
+\begin{verbatim}
+## # Comparison of Model Performance Indices
+## 
+## Name | Model | AIC (weights) | AICc (weights) | BIC (weights) |    R2 |  RMSE | Sigma
+## -------------------------------------------------------------------------------------
+## mod1 |   glm | 528.4 (<.001) |  529.6 (<.001) | 556.3 (0.079) | 0.755 | 1.158 | 1.188
+## mod2 |   glm | 501.0 (<.001) |  505.3 (0.341) | 553.5 (0.314) | 0.810 | 1.023 | 1.077
+## mod3 |   glm | 499.7 (<.001) |  504.0 (0.659) | 552.2 (0.606) | 0.811 | 1.019 | 1.073
+## mod4 |   glm | 474.7 (>.999) |  564.1 (<.001) | 675.4 (<.001) | 0.911 | 0.701 | 0.901
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{compare\_performance}\NormalTok{(mod1, mod2, mod3, mod4) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{plot}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## When comparing models, please note that probably not all models were fit
+##   from same data.
+\end{verbatim}
+
+\includegraphics{Final_Project_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+The first table shows important statistical values for each model, and
+the best model should have a low AIC, AICc, Sigma, and an R2 value
+closest to 1. The radar chart helps show in a visual manner which model
+has the best values for each value. The greater the diameter, or
+proximity of each point to their respective vales, the more ideal the
+value for that model. So looking at the table and the chart, it is clear
+that model 4 is the best model for the dataset.
+
+\subsubsection{Measuring Predictive
+Accuracy}\label{measuring-predictive-accuracy}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cv }\OtherTok{\textless{}{-}} \FunctionTok{createDataPartition}\NormalTok{(pol}\SpecialCharTok{$}\NormalTok{total\_ecological\_footprint, }\AttributeTok{p =} \FloatTok{0.8}\NormalTok{, }\AttributeTok{list =}\NormalTok{ F)}
+\NormalTok{pol\_train }\OtherTok{\textless{}{-}}\NormalTok{ pol[cv, ]}
+\NormalTok{pol\_test }\OtherTok{\textless{}{-}}\NormalTok{ pol[}\SpecialCharTok{{-}}\NormalTok{cv,]}
+\FunctionTok{dim}\NormalTok{(pol\_train)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 152  21
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dim}\NormalTok{(pol) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 188  21
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train\_mod4 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(}\AttributeTok{data =}\NormalTok{ pol\_train,}
+                 \AttributeTok{formula =}\NormalTok{ mod4}\SpecialCharTok{$}\NormalTok{formula,}
+                 \AttributeTok{family =} \StringTok{\textquotesingle{}gaussian\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{pol\_test}\SpecialCharTok{$}\NormalTok{pred4 }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(train\_mod4, pol\_test, }\AttributeTok{type =} \StringTok{\textquotesingle{}response\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{pol\_test\_clean }\OtherTok{\textless{}{-}}\NormalTok{ pol\_test }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(population\_millions)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(hdi)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(gdp\_per\_capita)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(cropland\_footprint)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(urban\_land)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(forest\_land))}
+
+\NormalTok{pol\_test\_clean}\SpecialCharTok{$}\NormalTok{pred4 }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(train\_mod4, }\AttributeTok{newdata =}\NormalTok{ pol\_test\_clean, }\AttributeTok{type =} \StringTok{"response"}\NormalTok{)}
+
+\FunctionTok{ggplot}\NormalTok{(pol\_test, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ total\_ecological\_footprint, }\AttributeTok{y =}\NormalTok{ pred4)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{color =} \StringTok{"darkblue"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_abline}\NormalTok{(}\AttributeTok{slope =} \DecValTok{1}\NormalTok{, }\AttributeTok{intercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Predicted vs. Actual Ecological Footprint"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Actual"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Predicted"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Removed 3 rows containing missing values or values outside the scale range
+## (`geom_point()`).
+\end{verbatim}
+
+\includegraphics{Final_Project_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Calculate performance metrics}
+\FunctionTok{library}\NormalTok{(ModelMetrics)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'ModelMetrics'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:caret':
+## 
+##     confusionMatrix, precision, recall, sensitivity, specificity
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:performance':
+## 
+##     mae, mse, rmse
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:bayestestR':
+## 
+##     auc
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:base':
+## 
+##     kappa
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rmse\_val4 }\OtherTok{\textless{}{-}} \FunctionTok{rmse}\NormalTok{(pol\_test\_clean}\SpecialCharTok{$}\NormalTok{total\_ecological\_footprint, pol\_test\_clean}\SpecialCharTok{$}\NormalTok{pred4) }
+\NormalTok{mae\_val4 }\OtherTok{\textless{}{-}} \FunctionTok{mae}\NormalTok{(pol\_test\_clean}\SpecialCharTok{$}\NormalTok{total\_ecological\_footprint, pol\_test\_clean}\SpecialCharTok{$}\NormalTok{pred4)}
+\NormalTok{r2\_val4 }\OtherTok{\textless{}{-}} \FunctionTok{cor}\NormalTok{(pol\_test\_clean}\SpecialCharTok{$}\NormalTok{total\_ecological\_footprint, pol\_test\_clean}\SpecialCharTok{$}\NormalTok{pred4)}\SpecialCharTok{\^{}}\DecValTok{2}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Root Mean Square Error (RMSE):"}\NormalTok{, }\FunctionTok{round}\NormalTok{(rmse\_val4, }\DecValTok{2}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Root Mean Square Error (RMSE): 11.02
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Mean Absolute Error (MAE):"}\NormalTok{, }\FunctionTok{round}\NormalTok{(mae\_val4, }\DecValTok{2}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Mean Absolute Error (MAE): 3.89
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"R{-}squared on Test Set:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(r2\_val4, }\DecValTok{3}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## R-squared on Test Set: 0.012
+\end{verbatim}
+
+The predictive model performance drops significantly, meaning the model
+is likely overfitted to the training data. This overfitting is due to
+the complexity of the model, so choosing the next best model, mod3, is
+probably a better idea as it has less variable interactions.
+
+Let's try it again with model 3.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train\_mod3 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(}\AttributeTok{data =}\NormalTok{ pol\_train,}
+                  \AttributeTok{formula =}\NormalTok{ mod3}\SpecialCharTok{$}\NormalTok{formula,}
+                  \AttributeTok{family =} \StringTok{\textquotesingle{}gaussian\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{pol\_test\_clean}\SpecialCharTok{$}\NormalTok{pred3 }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(train\_mod3, }\AttributeTok{newdata =}\NormalTok{ pol\_test\_clean, }\AttributeTok{type =} \StringTok{"response"}\NormalTok{)}
+
+\FunctionTok{ggplot}\NormalTok{(pol\_test\_clean, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ total\_ecological\_footprint, }\AttributeTok{y =}\NormalTok{ pred3)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{color =} \StringTok{"darkblue"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_abline}\NormalTok{(}\AttributeTok{slope =} \DecValTok{1}\NormalTok{, }\AttributeTok{intercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Predicted vs. Actual Ecological Footprint"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Actual"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Predicted"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Final_Project_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rmse\_val3 }\OtherTok{\textless{}{-}} \FunctionTok{rmse}\NormalTok{(pol\_test\_clean}\SpecialCharTok{$}\NormalTok{total\_ecological\_footprint, pol\_test\_clean}\SpecialCharTok{$}\NormalTok{pred3) }
+\NormalTok{mae\_val3 }\OtherTok{\textless{}{-}} \FunctionTok{mae}\NormalTok{(pol\_test\_clean}\SpecialCharTok{$}\NormalTok{total\_ecological\_footprint, pol\_test\_clean}\SpecialCharTok{$}\NormalTok{pred3)}
+\NormalTok{r2\_val3 }\OtherTok{\textless{}{-}} \FunctionTok{cor}\NormalTok{(pol\_test\_clean}\SpecialCharTok{$}\NormalTok{total\_ecological\_footprint, pol\_test\_clean}\SpecialCharTok{$}\NormalTok{pred3)}\SpecialCharTok{\^{}}\DecValTok{2}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Root Mean Square Error (RMSE):"}\NormalTok{, }\FunctionTok{round}\NormalTok{(rmse\_val3, }\DecValTok{2}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Root Mean Square Error (RMSE): 1.36
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Mean Absolute Error (MAE):"}\NormalTok{, }\FunctionTok{round}\NormalTok{(mae\_val3, }\DecValTok{2}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Mean Absolute Error (MAE): 0.95
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"R{-}squared on Test Set:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(r2\_val3, }\DecValTok{3}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## R-squared on Test Set: 0.717
+\end{verbatim}
+
+This predictive model is much better, with improved RMSE, MAE,and
+R-squared values compared to model 4. This goes to show that modeling
+can be extremely precise for given data, but it is not always useful for
+predicting hypothetical values.
+
+\end{document}
