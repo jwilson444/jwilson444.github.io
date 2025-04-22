@@ -8,7 +8,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## [ABOUT ME](./) | [CV](./CV/CV.html) | [BIOL 3100 - FINAL PROJECT](./Final Project/Final_Project.html)
+## [ABOUT ME](./) | [CV](./CV/CV.html) | [BIOL 3100 - FINAL PROJECT](./Final_Project/Final_Project.html)
 
 # Jeremy Wilson 
 ### Aspiring Physician
